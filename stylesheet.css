@@ -1,0 +1,46 @@
+
+body{
+    font-family: "Noto Sans", sans-serif;
+}
+
+#navigation{
+    padding: 0 1%;
+}
+
+#text-column{
+    max-width: 650px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+    color: #222;
+}
+
+a {
+    color: #678;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0CF;
+    text-decoration: none;
+}
+
+code{
+    font-family: 'Courier', monospace;
+}
+
+/* fancy footnotes */
+input[type=checkbox][id|=fn] ~ span {display:none;}
+input[type=checkbox][id|=fn]:checked ~ span {display:block;}
+input[type=checkbox][id|=fn] {display:none;}
+.fn-content{
+    filter: brightness(90%);
+    background-color: #FFF;
+    padding: 6px;
+    border-radius: 6px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left:auto;
+    margin-right:auto;
+    width: 96%;
+}
+
