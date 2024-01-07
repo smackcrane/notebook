@@ -98,7 +98,7 @@
     <h3>Demo</h3>
 
     <p>
-    This is all we need to get started, so let's whip up a proof of concept. We'll use <code>sklearn.datasets.make_moons</code> to make a non-linear classification problem with two features and two labels, and a tiny neural network<span id="fn-6"><label for="fn-6-toggle"><sup>6</sup></label><input type="checkbox" hidden id="fn-6-toggle"/>
+    This is all we need to get started, so let's whip up a proof of concept. We'll use <code>sklearn.datasets.make_moons</code> to make a non-linear classification problem with two features and two labels, and a tiny neural network<span id="fn-4"><label for="fn-4-toggle"><sup>4</sup></label><input type="checkbox" hidden id="fn-4-toggle"/>
         <span class="fn-content">
             Writing a linear neural net from scratch is delightfully simple, especially if you aren't using gradients! Our linear layer is just a weight matrix and bias vector, with very little extra packaging needed.<br><br>
         <code>
@@ -151,7 +151,7 @@
 
     The only think that sticks out is the exponent. Why not simply use the total likelihood? Indeed, in cross-entropy we could equally well take the sum of negative log likelihoods rather than the mean, and then the factor of $n$ would disappear from the exponent. However, the factor of $n$ has a balancing effect against sample size, and in any case the temperature parameter $T$ allows us to modulate the exponent independent of this. For now, since we're using the full dataset as a single batch, we'll drop the $n$ and just use $T$ to adjust the exponent.
     </span></span>
-    Then implement our Metropolis-Hastings algorithm in an optimizer class,<span id="fn-7"><label for="fn-7-toggle"><sup>7</sup></label><input type="checkbox" hidden id="fn-7-toggle"/>
+    Then implement our Metropolis-Hastings algorithm in an optimizer class,<span id="fn-6"><label for="fn-6-toggle"><sup>6</sup></label><input type="checkbox" hidden id="fn-6-toggle"/>
         <span class="fn-content">
             <code>
             class MH:<br>
