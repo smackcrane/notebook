@@ -30,98 +30,90 @@
     <div id='navigation'><h2><a href='index.html'>Notebook</a></h2></div>
 
     <div id='text-column'>
-    <h1>Micropolis I</h1>
+    <h1>Micropolis I: Metropolis-Hastings</h1>
 
-    <p>
-    Inspired by the gradient descent deep dive in Andrej Karpathy's <a href='https://github.com/karpathy/micrograd'>micrograd</a> (and <a href='https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ'>lectures</a>), we're going to write a ``by-hands'' neural network optimizer based on the Metropolis-Hastings algorithm: <a href='https://github.com/smackcrane/micropolis'>micropolis</a>.
-    </p>
+    Inspired by the gradient descent deep dive in Andrej Karpathy's <a href='https://github.com/karpathy/micrograd'>micrograd</a> (and <a href='https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ'>lectures</a>), we're going to write a ``by-hands'' neural network optimizer based on the Metropolis-Hastings algorithm: <a href='https://github.com/smackcrane/micropolis/tree/fdf36140a0561743cdc4c6c50574e5b338680c02'>micropolis</a>.
 
-    <p>
-    Why? For a bit of fun; because gradient methods shouldn't be taken for granted; because I have no idea what Monte Carlo means<span id="fn-1"><label for="fn-1-toggle"><sup>1</sup></label><input type="checkbox" hidden id="fn-1-toggle"/>
-        <span class="fn-content">
+    <br><br>
+
+    Why? For a bit of fun; because gradient methods shouldn't be taken for granted; because I have no idea what Monte Carlo means<label for="fn-1-toggle"><sup>1</sup></label><input type="checkbox" hidden id="fn-1-toggle"/>
+        <div class="fn-content">
         ``Monte Carlo'' essentially means using random sampling to solve a problem, often something like optimization or sampling from a distribution, in a context that's too complicated to solve analytically. In our case this will be the optimization problem of minimizing the loss---or relatedly, the problem of sampling from the ``distribution'' of the loss function over the parameter space.
-        </span></span>
+        </div>
         and that seems like a shame. But mostly for fun.
-    </p>
 
     <h3>Metropolis-Hastings</h3>
 
-    <p>
-    The Metropolis-Hastings algorithm is a way of sampling from an arbitrary distribution.<span id="fn-2"><label for="fn-2-toggle"><sup>2</sup></label><input type="checkbox" hidden id="fn-2-toggle"/>
-        <span class="fn-content">
+    The Metropolis-Hastings algorithm is a way of sampling from an arbitrary distribution.<label for="fn-2-toggle"><sup>2</sup></label><input type="checkbox" hidden id="fn-2-toggle"/>
+        <div class="fn-content">
         It took me a while to conceptualize this problem, i.e. why it's important or even non-trivial. My usual way of sampling from a distribution was to write <code>np.random.binomial(n, p)</code> or whatever, without wondering what was going on inside. As soon as you start to wonder, though, it becomes clear---while it may not be so complicated to sample from a uniform distribution, sampling from an arbitrariliy complicated distribution can be arbitrarily complicated, and this is where Metropolis-Hastings comes to the rescue.
-        </span></span>
-        All we need is an (un-normalized)<span id="fn-3"><label for="fn-3-toggle"><sup>3</sup></label><input type="checkbox" hidden id="fn-3-toggle"/>
-        <span class="fn-content">
+        </div>
+        All we need is an (un-normalized)<label for="fn-3-toggle"><sup>3</sup></label><input type="checkbox" hidden id="fn-3-toggle"/>
+        <div class="fn-content">
         This is a serious benefit, since computing the normalization constant can be about as hard as trying to find the analytic answer to your question in the first place---that is to say, impossible.
-        </span></span>
+        </div>
         probability density function. Metropolis-Hastings uses a type of rejection sampling, where we sample from some simpler distribution (e.g. uniform or Gaussian) and then apply a test to accept or reject the sample---the samples that we accept will follow the desired distribution.
-    </p>
 
-    <p>
+        <br><br>
+
     The precise setup is this. We start with an initial point $x=x_0$, and call our un-normalized probability density $f(x)$. Then we generate a proposal $x'$ for a new sample---we'll use the simplest approach, which draws our proposal from a Gaussian centered at our current sample $x$.
-    </p>
 
-    <p>
+    <br><br>
+
     To test for acceptance we compare the density $f(x)$ and $f(x')$ at the two points, by computing the ratio $f(x')/f(x)$. Then draw a uniform random number $p\in[0,1]$; if $p\le f(x')/f(x)$ then we accept, and if $p > f(x')/f(x)$ then we reject. Basically, if the proposal is ``better'' in the sense of having a greater density then we always accept it, and if the proposal is ``worse'' in the sense of having a lower density then we accept or reject it with probability proportional to how much worse it is.
-    </p>
 
-    <p>
+    <br><br>
+
     If the proposal is accepted, then it becomes our new sample $x_1=x'$; if rejected, we continue with the old sample $x_1=x_0$. Repeating this process, we produce a sequence of points $x_0, x_1, x_2, \ldots$ which follow the desired probability distribution.
-    </p>
 
     <h3>What about neural nets?</h3>
-    <p>
-    In the context of optimizing a neural network, the ``distribution'' on the ``space'' that we want to sample from is the loss function on the space of model parameters. That is, each point $x_i$ is a set of parameters for the model, and the density $f(x)$ will be derived from our loss function. At each stage we propose new parameters by a Gaussian perturbation to the current parameters; if this decreases the loss, we accept the proposal, and if it increases the loss then we accept or reject depending on how much the loss increased. We also need to specify the standard distribution of the Gaussian proposal distribution---this is our learning rate hyperparameter, as it determines the size of jumps that our optimizer makes.
-    </p>
 
-    <p>
+    In the context of optimizing a neural network, the ``distribution'' on the ``space'' that we want to sample from is the loss function on the space of model parameters. That is, each point $x_i$ is a set of parameters for the model, and the density $f(x)$ will be derived from our loss function. At each stage we propose new parameters by a Gaussian perturbation to the current parameters; if this decreases the loss, we accept the proposal, and if it increases the loss then we accept or reject depending on how much the loss increased. We also need to specify the standard distribution of the Gaussian proposal distribution---this is our learning rate hyperparameter, as it determines the size of jumps that our optimizer makes.
+
+    <br><br>
+
     This will result in samples that follow the distribution of our loss function, which means that the samples will tend to accumulate in regions where the loss is lowest, thereby arriving at the optimal parameters.
-    </p>
 
     <h3>Acceptance Test</h3>
 
-    <p>
     The only missing piece is the probability density. The loss function itself isn't appropriate for this---at the most basic level, our algorithm tends to <em>maximize</em> the density function, but we want to <em>minimize</em> the loss. So how can we convert our loss function into a(n un-normalized) probability density?
-    </p>
 
-    <p>
+    <br><br>
+
     A principled way to do this is to interpret the loss, in analogy with statistical mechanics, as measuring the ``energy'' of that state. To find the probability of this state, we plug the energy into the Boltzmann distribution
     $$p(x)\propto e^{-f(x)/T}.$$
     Here $T$ is the ``temperature'', a hyperparameter that essentially governs how generous or stingy we are with accepting bad proposals---high temperature will smooth out the distribution and make it more likely to accept bad proposals, low temperature the opposite.
-    </p>
 
-    <p>
+    <br><br>
+
     This gives us a density function that we can use for Metropolis-Hastings.
-    </p>
 
     <h3>Demo</h3>
 
-    <p>
-    This is all we need to get started, so let's whip up a proof of concept. We'll use <code>sklearn.datasets.make_moons</code> to make a non-linear classification problem with two features and two labels, and a tiny neural network<span id="fn-4"><label for="fn-4-toggle"><sup>4</sup></label><input type="checkbox" hidden id="fn-4-toggle"/>
-        <span class="fn-content">
-            Writing a linear neural net from scratch is delightfully simple, especially if you aren't using gradients! Our linear layer is just a weight matrix and bias vector, with very little extra packaging needed.<br><br>
-        <code>
-        class Linear(Module):<br>
-        &emsp;"""Linear layer"""<br>
-<br>
-        &emsp;def __init__(self, in_dim, out_dim, bias=True):<br>
-        &emsp;&emsp;self.weight = rng.normal(size=(in_dim, out_dim))<br>
-        &emsp;&emsp;self.bias = rng.normal(size=(out_dim)) if bias else None<br>
-<br>
-        &emsp;def __call__(self, x):<br>
-        &emsp;&emsp;out = x @ self.weight<br>
-        &emsp;&emsp;if self.bias is not None:<br>
-        &emsp;&emsp;&emsp;out += self.bias<br>
-        &emsp;&emsp;return out<br>
-<br>
-        &emsp;def parameters(self):<br>
-        &emsp;&emsp;if self.bias is not None:<br>
-        &emsp;&emsp;&emsp;return [self.weight, self.bias]<br>
-        &emsp;&emsp;else:<br>
-        &emsp;&emsp;&emsp;return [self.weight]<br>
-        </code>
-        </span></span>
+    This is all we need to get started, so let's whip up a proof of concept. We'll use <code>sklearn.datasets.make_moons</code> to make a non-linear classification problem with two features and two labels, and a tiny neural network<label for="fn-4-toggle"><sup>4</sup></label><input type="checkbox" hidden id="fn-4-toggle"/>
+        <div class="fn-content">
+            Writing a linear neural net from scratch is delightfully simple, especially if you aren't using gradients! Our linear layer is just a weight matrix and bias vector, with very little extra packaging needed.
+        <pre><code>
+  class Linear(Module):
+      """Linear layer"""
+  
+      def __init__(self, in_dim, out_dim, bias=True):
+          self.weight = rng.normal(size=(in_dim, out_dim))
+          self.bias = rng.normal(size=(out_dim)) if bias else None
+  
+      def __call__(self, x):
+          out = x @ self.weight
+          if self.bias is not None:
+              out += self.bias
+          return out
+  
+      def parameters(self):
+          if self.bias is not None:
+              return [self.weight, self.bias]
+          else:
+              return [self.weight]
+        </code></pre>
+        </div>
         to model it.
     <pre><code>
     Sequential model
@@ -132,11 +124,11 @@
         Linear: weight (10, 2), bias (2,)
     total parameters: 162
     </code></pre>
-    </p>
 
-    <p>
-    We'll use cross-entropy loss, which actually has a nice interaction with the Boltzmann distribution.<span id="fn-5"><label for="fn-5-toggle"><sup>5</sup></label><input type="checkbox" hidden id="fn-5-toggle"/>
-        <span class="fn-content">
+    <br><br>
+
+    We'll use cross-entropy loss, which actually has a nice interaction with the Boltzmann distribution.<label for="fn-5-toggle"><sup>5</sup></label><input type="checkbox" hidden id="fn-5-toggle"/>
+        <div class="fn-content">
         Inside cross-entropy we're taking negative log likelihoods, and the negative log will cancel out the negative exponential in the Boltzmann distribution. To be precise, if we have samples $x_1,\ldots,x_n$ and our model assigns probability $p_i$ to the correct label $y_i$ for sample $x_i$, then the cross-entropy loss is the average negative log likelihood
     $$f(x)=-\frac{\ln(p_1)+\cdots+\ln(p_n)}{n}$$
     and plugging into the Boltzmann distribution this becomes
@@ -150,54 +142,53 @@
     <br><br>
 
     The only think that sticks out is the exponent. Why not simply use the total likelihood? Indeed, in cross-entropy we could equally well take the sum of negative log likelihoods rather than the mean, and then the factor of $n$ would disappear from the exponent. However, the factor of $n$ has a balancing effect against sample size, and in any case the temperature parameter $T$ allows us to modulate the exponent independent of this. For now, since we're using the full dataset as a single batch, we'll drop the $n$ and just use $T$ to adjust the exponent.
-    </span></span>
-    Then implement our Metropolis-Hastings algorithm in an optimizer class,<span id="fn-6"><label for="fn-6-toggle"><sup>6</sup></label><input type="checkbox" hidden id="fn-6-toggle"/>
-        <span class="fn-content">
-            <code>
-            class MH:<br>
-            &nbsp;"""Metropolis-Hastings optimizer"""<br>
-            <br>
-            &nbsp;def __init__(self, model, lr=1, T=1):<br>
-            &nbsp;&nbsp;self.model = model<br>
-            &nbsp;&nbsp;self.lr = lr<br>
-            &nbsp;&nbsp;self.T = T<br>
-            &nbsp;&nbsp;self.sample_nll = 1e5<br>
-            <br>
-            &nbsp;&nbsp;self.rng = np.random.default_rng()<br>
-            &nbsp;&nbsp;self.Stats = namedtuple('Stats', ['accept', 'proposal_nll', 'ratio', 'p'])<br>
-            <br>
-            &nbsp;def step(self, X, y):<br>
-            &nbsp;&nbsp;"""Step the optimizer: propose a sample, test, accept or reject"""<br>
-            <br>
-            &nbsp;&nbsp;# propose new sample<br>
-            &nbsp;&nbsp;proposal = self.model.copy()<br>
-            &nbsp;&nbsp;for p in proposal.parameters():<br>
-            &nbsp;&nbsp;&nbsp;p += self.lr * self.rng.normal(size=p.shape)<br>
-            <br>
-            &nbsp;&nbsp;# compute loss<br>
-            &nbsp;&nbsp;y_pred = proposal(X)<br>
-            &nbsp;&nbsp;proposal_nll = F.negative_log_likelihood(y_pred, y, T=self.T)<br>
-            <br>
-            &nbsp;&nbsp;# acceptance test<br>
-            &nbsp;&nbsp;ratio = np.exp(self.sample_nll - proposal_nll)<br>
-            &nbsp;&nbsp;p = self.rng.uniform(0,1)<br>
-            &nbsp;&nbsp;accept = p < ratio<br>
-            <br>
-            &nbsp;&nbsp;if accept:<br>
-            &nbsp;&nbsp;&nbsp;self.model.set_parameters(proposal)<br>
-            &nbsp;&nbsp;&nbsp;self.sample_nll = proposal_nll<br>
-            <br>
-            &nbsp;&nbsp;return self.Stats(accept, proposal_nll, ratio, p)<br>
-            </code>
-        </span></span>
+    </div>
+    Then implement our Metropolis-Hastings algorithm in an optimizer class,<label for="fn-6-toggle"><sup>6</sup></label><input type="checkbox" hidden id="fn-6-toggle"/>
+        <div class="fn-content">
+            <pre><code>
+  class MH:
+      """Metropolis-Hastings optimizer"""
+  
+      def __init__(self, model, lr=1, T=1):
+          self.model = model
+          self.lr = lr
+          self.T = T
+          self.sample_nll = 1e5
+  
+          self.rng = np.random.default_rng()
+          self.Stats = namedtuple('Stats', ['accept', 'proposal_nll', 'ratio', 'p'])
+  
+      def step(self, X, y):
+          """Step the optimizer: propose a sample, test, accept or reject"""
+  
+          # propose new sample
+          proposal = self.model.copy()
+          for p in proposal.parameters():
+              p += self.lr * self.rng.normal(size=p.shape)
+  
+          # compute loss
+          y_pred = proposal(X)
+          proposal_nll = F.negative_log_likelihood(y_pred, y, T=self.T)
+  
+          # acceptance test
+          ratio = np.exp(self.sample_nll - proposal_nll)
+          p = self.rng.uniform(0,1)
+          accept = p < ratio
+  
+          if accept:
+              self.model.set_parameters(proposal)
+              self.sample_nll = proposal_nll
+  
+          return self.Stats(accept, proposal_nll, ratio, p)
+            </code></pre>
+        </div>
     and we're ready to train!
-    </p>
 
-    <p>
+    <br><br>
+
     After some experimentation we set our learning rate to <code>1e-1</code> and our temperature to <code>3e0</code>, and the results look something like this.
     <img src='media/micropolis-i/Figure_1.png' style="width: 100%">
     The top-left plot shows our classification dataset, with the decision boundary given by the initialized (untrained) model, which looks appropriately random. The top-right plot is the decision boundary of the best model over 2000 steps of Metropolis-Hastings, and we can see that it has successfully learned to distinguish the classes!
-    </p>
 
     </div>
 

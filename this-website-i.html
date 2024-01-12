@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- KaTeX requires the use of the HTML5 doctype. Without it, KaTeX may not render properly -->
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '\\[', right: '\\]', display: true}
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });"></script>
+</head>
+<body>
+
+    <div id='navigation'><h2><a href='index.html'>Notebook</a></h2></div>
+
+    <div id='text-column'>
+    <h1>This Website I: Fancy Footnotes</h1>
+
+    Obviously need $\LaTeX$ support. I heard <a href="https://katex.org/">KaTeX</a> recommended, and it turned out to be quite easy to get up and running by copying the <a href="https://katex.org/docs/browser">starter template here</a> with <code>renderMathInElement</code> <a href="https://katex.org/docs/autorender">parameters here</a>. Doesn't look great on a phone, but that's a problem for later.
+
+    <br><br>
+
+    After writing a bit, I've come to believe that writing is hard and my writing in particular is far too verbose. Rather than solving this problem, I'd like to sweep it under the rug, by shoving everything into fancy footnotes.<label for="fn-1-toggle"><sup>1</sup></label><input type="checkbox" hidden id="fn-1-toggle"/>
+    <div class="fn-content">
+    This too turned out to be surprisingly easy just by copy-pasting: following <a href='https://stackoverflow.com/questions/62305956/fivethirtyeight-style-in-text-footnotes-for-bookdown'>this SE question</a> to <a href='https://bd-reprex.netlify.app/intro.html'>this website</a> and inspecting the source code. Putting three lines in <code>stylesheet.css</code>:
+    <pre><code>
+  input[type=checkbox][id|=fn] ~ span {display:none;}
+  input[type=checkbox][id|=fn]:checked ~ span {display:block;}
+  input[type=checkbox][id|=fn] {display:none;}
+    </code></pre>
+    and then in the HTML file writing---for example, for footnote 2---
+    <pre style='display: block'><code>
+  ... main text&lt;span id="fn-2"&gt;
+  &lt;label for="fn-2-toggle"&gt;
+  &lt;sup&gt;2&lt;/sup&gt;
+  &lt;/label&gt;
+  &lt;input type="checkbox" hidden id="fn-2-toggle"/&gt;
+  &lt;span id="fn-content"&gt;
+  Footnote text go here
+  &lt;/span&gt;&lt;/span&gt;
+    </code></pre>
+    and it works!<label for="fn-2-toggle"><sup>2</sup></label><input type="checkbox" hidden id="fn-2-toggle"/>
+    <div class="fn-content">
+        Unfortunately this is a bit restrictive, because putting grouping elements (e.g. <code>&lt;p&gt;, &lt;pre&gt;</code>) inside the footnote breaks it. This is because it violates <a href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-span-element">HTML semantics</a>: the <code>&lt;span&gt;</code> tag expects ``phrasing content'', which doesn't include <code>&lt;p&gt;</code> etc. We can fix this problem by changing the <code>&lt;span&gt;</code> to a <code>&lt;div&gt;</code>---except this still doesn't work, because putting a <code>&lt;div&gt;</code> inside a <code>&lt;p&gt;</code> also breaks HTML semantics!<label for="fn-3-toggle"><sup>3</sup></label><input type="checkbox" hidden id="fn-3-toggle"/>
+        <div class="fn-content">
+            <code>&lt;p&gt;</code>, too, expects phrasing content.
+        </div>
+        So we have to sacrifice something, and the way that's most generous to the footnote is to write top-level paragraphs without <code>&lt;p&gt;</code>, and use <code>&lt;div&gt;</code> for the footnotes.
+
+        <br><br>
+
+        After these changes and some more simplifing tweaks, it looks like what you'll see inspecting the source code.
+    </div>
+        In fact, it's happening right here in front of you, so you can see for yourself by inspecting the source for this page. Slap it in a vim macro and y'r cooking!
+    </div>
+    This way I can write as much as I want, and no one has to look at it!
+
+    <br><br>
+
+    As for the overall design and organization, we'll keep it simple for now, just adding a couple <code>&lt;div&gt;</code>s for the home link and the text column. Maybe a nice font ... <a href="https://fonts.google.com/noto/specimen/Noto+Sans?stroke=Sans+Serif">Noto Sans</a> seems fine ... adjust the weight down a lil ... ok.
+
+    </div>
+
+
+</body>
+</html>
