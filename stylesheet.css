@@ -53,3 +53,25 @@ input[type=checkbox][id|=fn] {display:none;}
     overflow-x: scroll;
 }
 
+/* fancy tags */
+label[for|=tag], label[for=deselect] {
+    border: 1px solid;
+    border-radius: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+label[for=deselect] {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+input[type=radio][id|=tag]:hover + label {background-color: #DDD}
+input[type=radio][id=deselect]:hover + label {background-color: #DDD}
+input[type=radio][id|=tag]:checked + label {background-color: #FDB}
+input[type=radio][id|=tag]:checked ~ div[class|=tag] {display: none}
+input[type=radio][id=tag-nerdshit]:checked ~ div[class=tag-nerdshit] {display: block}
+input[type=radio][id=tag-climbing]:checked ~ div[class=tag-climbing] {display: block}
+div[class|=tag] {
+    padding-bottom: 20px;
+}
