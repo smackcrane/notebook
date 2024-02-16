@@ -69,9 +69,4 @@ label[for=deselect] {
 input[type=radio][id|=tag]:hover + label {background-color: #DDD}
 input[type=radio][id=deselect]:hover + label {background-color: #DDD}
 input[type=radio][id|=tag]:checked + label {background-color: #FDB}
-input[type=radio][id|=tag]:checked ~ div[class|=tag] {display: none}
-input[type=radio][id=tag-nerdshit]:checked ~ div[class=tag-nerdshit] {display: block}
-input[type=radio][id=tag-climbing]:checked ~ div[class=tag-climbing] {display: block}
-div[class|=tag] {
-    padding-bottom: 20px;
-}
+div[class|=tag] {padding-bottom: 20px;}
