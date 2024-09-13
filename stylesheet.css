@@ -11,17 +11,6 @@ body{
     padding-bottom: 50px;
 }
 
-#navigation{
-    padding: 0 1%;
-}
-
-#text-column{
-    max-width: 650px;
-    margin: 0 auto;
-    padding-bottom: 50px;
-    color: #222;
-}
-
 a {
     color: var(--main-color);
     text-decoration: none;
@@ -35,6 +24,31 @@ a:hover {
 code{
     font-family: 'Courier', monospace;
 }
+
+#navigation {
+    padding: 0 1%;
+}
+
+#text-column {
+    max-width: 650px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+    color: #222;
+}
+
+/* previous/next in series navigation */
+.prev, .next {
+    display: block;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+.prev { float: left; }
+.next { float: right; }
+.prev a:before { content: "\2190  "; }
+.next a:after { content: "  \2192"; }
 
 /* fancy footnotes */
 input[type=checkbox] + div.fn-content {display:none;}

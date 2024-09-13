@@ -30,7 +30,7 @@
     <div id='navigation'><h2><a href='index.html'>Notebook</a></h2></div>
 
     <div id='text-column'>
-        <h4 style='float:right;'><a href='micropolis-ii.html'>Micropolis II &rarr;</a></h4>
+        <span class='next'><a href='micropolis-ii.html'>Micropolis II</a></span>
         <div style='clear:both;'></div>
 
     <h1>Micropolis I: Metropolis-Hastings</h1>
@@ -144,7 +144,7 @@
     simply the total likelihood (the product of the probability for the correct label in each sample) to the power $1/nT$. This is a very satisfying result for the ``probability density'' analogue of our loss---in retrospect we can even dispense with cross-entropy and Boltzmann distributions, and go directly to likelihood.
     <br><br>
 
-    The only think that sticks out is the exponent. Why not simply use the total likelihood? Indeed, in cross-entropy we could equally well take the sum of negative log likelihoods rather than the mean, and then the factor of $n$ would disappear from the exponent. However, the factor of $n$ has a balancing effect against sample size, and in any case the temperature parameter $T$ allows us to modulate the exponent independent of this. For now, since we're using the full dataset as a single batch, we'll drop the $n$ and just use $T$ to adjust the exponent.
+    The only thing that sticks out is the exponent. Why not simply use the total likelihood? Indeed, in cross-entropy we could equally well take the sum of negative log likelihoods rather than the mean, and then the factor of $n$ would disappear from the exponent. However, the factor of $n$ has a balancing effect against sample size, and in any case the temperature parameter $T$ allows us to modulate the exponent independent of this. For now, since we're using the full dataset as a single batch, we'll drop the $n$ and just use $T$ to adjust the exponent.
     </div>
     Then implement our Metropolis-Hastings algorithm in an optimizer class,<label for="fn-6-toggle"><sup>6</sup></label><input type="checkbox" hidden id="fn-6-toggle"/>
         <div class="fn-content">
