@@ -1,9 +1,12 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true
-  }
+    "compilerOptions": {
+        "target": "es6",
+        "module": "es6",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "jsx": "react",
+        "moduleResolution": "bundler",
+        "esModuleInterop": true,
+        "strict": true
+    }
 }
