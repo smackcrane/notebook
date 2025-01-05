@@ -10,6 +10,7 @@
         "moduleDetection": "force",
         "isolatedModules": true,
         "verbatimModuleSyntax": true,
+        "moduleResolution": "bundler",
 
         /* Strictness */
         "strict": true,
@@ -17,7 +18,7 @@
         "noImplicitOverride": true,
 
         /* If transpiling with TypeScript: */
-        "module": "NodeNext",
+        "module": "es2022",
         "outDir": "dist",
         "sourceMap": true,
 
