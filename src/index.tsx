@@ -17,10 +17,7 @@ function Website() {
             <NavigationContext.Provider
                 value={{
                     page: page,
-                    setPage: (page) => {
-                        console.log(page)
-                        setPage(page)
-                    },
+                    setPage: setPage,
                 }}
             >
                 <Page />

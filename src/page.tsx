@@ -1,19 +1,15 @@
 import { useContext } from "react"
 import { NavigationContext } from "./navigationContext"
 
+const pages = import.meta.glob("./pages/*.mdx", {
+    import: "default",
+    eager: true,
+})
+
 export { Page }
 
 function Page() {
     const nav = useContext(NavigationContext)
-    return (
-        <>
-            <h1>Hello, {nav.page}!</h1>
-            <p>
-                A website written in Typescript and React, and bundled with
-                Vite.
-            </p>
-            <button onClick={() => nav.setPage("home")}>Home</button>
-            <button onClick={() => nav.setPage("world")}>World</button>
-        </>
-    )
+    const Page = pages[`./pages/${nav.page}.mdx`] as React.ComponentType
+    return <Page />
 }

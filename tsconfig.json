@@ -1,5 +1,5 @@
 {
-    /* ty to totaltypescript.com/tsconfig-cheat-sheet */
+    /* ty to totaltypescript.com/tsconfig-cheat-sheet for much of this */
     "compilerOptions": {
         /* Base Options: */
         "esModuleInterop": true,
@@ -26,6 +26,9 @@
         "lib": ["es2022", "dom", "dom.iterable"],
 
         /* JSX: */
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+
+        /* to get import.meta.glob to work */
+        "types": ["vite/client"]
     }
 }
