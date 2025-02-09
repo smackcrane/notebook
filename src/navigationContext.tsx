@@ -1,6 +1,6 @@
 import { createContext } from "react"
 
-export { NavigationContext }
+export { NavigationContext as default }
 
 type NavigationProps = {
     page: string

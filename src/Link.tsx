@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { NavigationContext } from "./navigationContext"
+import NavigationContext from "./navigationContext"
 
 export default function Link({
     slug,

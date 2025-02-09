@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react"
 import ReactDOM from "react-dom/client"
-import { Page } from "./page"
-import { NavigationContext } from "./navigationContext"
+import Page from "./page"
+import NavigationContext from "./navigationContext"
 
 renderWebsite(<Website />)
 
