@@ -11,13 +11,13 @@ function renderWebsite(website: React.ReactNode) {
 }
 
 function Website() {
-    const [page, setPage] = useState("home")
+    const [slug, setSlug] = useState("home")
     return (
         <>
             <NavigationContext.Provider
                 value={{
-                    page: page,
-                    setPage: setPage,
+                    slug: slug,
+                    setSlug: setSlug,
                 }}
             >
                 <Page />
