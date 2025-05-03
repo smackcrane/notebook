@@ -1,8 +1,9 @@
-import { createContext, useContext, useState } from "react"
+import { useState } from "react"
 import ReactDOM from "react-dom/client"
 import Page from "./page"
 import NavigationContext from "./navigationContext"
 import "katex/dist/katex.min.css" // Import KaTeX CSS, necessary for correct rendering
+import "../stylesheet.css"
 
 renderWebsite(<Website />)
 

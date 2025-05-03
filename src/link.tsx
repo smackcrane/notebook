@@ -9,5 +9,5 @@ export default function Link({
     children: React.ReactNode
 }) {
     const nav = useContext(NavigationContext)
-    return <button onClick={() => nav.setSlug(slug)}>{children}</button>
+    return <a onClick={() => nav.setSlug(slug)}>{children}</a>
 }
