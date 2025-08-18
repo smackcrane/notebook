@@ -4,7 +4,7 @@
 <head>
     <!--link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="stylesheet.css">
+    <link type="text/css" rel="stylesheet" href="../static/stylesheet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 
     <!-- The loading of KaTeX is deferred to speed up page rendering -->
@@ -27,7 +27,7 @@
 </head>
 <body>
 
-    <div id='navigation'><h2><a href='index.html'>Notebook</a></h2></div>
+    <div id='navigation'><h2><a href='../index.html'>Notebook</a></h2></div>
 
     <div id='text-column'>
         <span class='next'><a href='micropolis-ii.html'>Micropolis II</a></span>
@@ -190,7 +190,7 @@
     <br><br>
 
     After some experimentation we set our learning rate to <code>1e-1</code> and our temperature to <code>3e0</code>, and the results look something like this.
-    <img src='media/micropolis-i/Figure_1.png' style="width: 100%">
+    <img src='../media/micropolis-i/Figure_1.png' style="width: 100%">
     The top-left plot shows our classification dataset, with the decision boundary given by the initialized (untrained) model, which looks appropriately random. The top-right plot is the decision boundary of the best model over 2000 steps of Metropolis-Hastings, and we can see that it has successfully learned to distinguish the classes!
 
         <div style='clear:both;'></div>
