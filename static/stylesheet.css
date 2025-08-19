@@ -51,9 +51,14 @@ code{
 .next a:after { content: "  \2192"; }
 
 /* fancy footnotes */
+/* functionality */
 input[type=checkbox] + div.fn-content {display:none;}
 input[type=checkbox]:checked + div.fn-content {display:block;}
 input[type=checkbox][id|=fn] {display:none;}
+/* styling */
+label[for|=fn]{
+    cursor: pointer;
+}
 .fn-content{
     filter: brightness(90%);
     background-color: #EFF;

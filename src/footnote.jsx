@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 export { Footnote }
 
-function Footnote({ n, children }) {
+let footnoteCounter = 0
+
+function Footnote({ children }) {
+    const n = ++footnoteCounter
+
     return (
         <>
             <label htmlFor={`fn-${n}-toggle`}>
-                <sup style={{ cursor: 'pointer' }}>{n}</sup>
+                <sup>{n}</sup>
             </label>
-            <input type="checkbox" hidden id={`fn-${n}-toggle"/>`} />
+            <input type="checkbox" hidden id={`fn-${n}-toggle`} />
             <div className="fn-content">{children}</div>
         </>
     )
