@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 
-export {Link}
+export { Link }
 
-function Link({href, slug, children}) {
+function Link({ href, slug, children }) {
     if (slug) {
         return <a href={`/pages/${slug}`}>{children}</a>
     } else {
