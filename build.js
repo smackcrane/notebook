@@ -49,8 +49,7 @@ for (const page of pages) {
     fs.writeFileSync(`dist/pages/${slug}.html`, html)
 }
 
-// copy media/ and static/
-fs.cpSync('media', 'dist/media', { recursive: true })
+// copy static/
 fs.cpSync('static', 'dist/static', { recursive: true })
 
 // special treatment for index.html
