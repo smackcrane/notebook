@@ -3,23 +3,22 @@ import mdx from "@mdx-js/esbuild";
 import fs from "fs";
 import path from "path";
 import { renderToString } from "react-dom/server";
+import Layout from "./src/layout.js";
 
-// prior to build, clean out dist and out
+// prior to build, reset dist and out
 fs.rmSync("out", { recursive: true, force: true });
 fs.mkdirSync("out");
 fs.rmSync("dist", { recursive: true, force: true });
 fs.mkdirSync("dist");
 
-// bundle mdx files
+// bundle mdx files (and their jsx imports)
 await esbuild.build({
   entryPoints: ["pages/*.mdx"],
   outdir: "out",
   bundle: true,
   format: "esm",
   platform: "node",
-  //   plugins: [mdx({ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] })],
   plugins: [mdx()],
-  //   loader: { ".js": ".jsx" },
 });
 
 // we want to produce a page for each file in pages/ dir
@@ -36,9 +35,9 @@ for (const page of pages) {
       html = fs.readFileSync("pages/" + page);
       break;
     case ".mdx":
-      // in case of .mdx, import the bundled version from out/ and convert to html
+      // in case of .mdx, import the bundled version from out/, convert to html, and wrap in layout
       const { default: Content } = await import(`./out/${slug}.js`);
-      html = renderToString(Content({ components: {} }));
+      html = Layout(renderToString(Content({ components: {} })));
       break;
     default:
       continue; // ignore files that aren't .html or .mdx
