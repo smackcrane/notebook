@@ -1,0 +1,12 @@
+{
+    "type": "module",
+    "scripts": {
+        "build": "node build.js"
+    },
+    "dependencies": {
+        "@mdx-js/esbuild": "^3.1.0",
+        "esbuild": "^0.25.9",
+        "react": "^19.1.1",
+        "react-dom": "^19.1.1"
+    }
+}
