@@ -54,3 +54,16 @@ fs.cpSync('static', 'dist/static', { recursive: true })
 
 // special treatment for index.html
 fs.cpSync('index.html', 'dist/index.html')
+
+// redirect old URLs
+for (let slug of [
+    'micropolis-i',
+    'micropolis-ii',
+    'this-website-i',
+    'gumby-road-trip',
+]) {
+    fs.writeFileSync(
+        `dist/${slug}.html`,
+        ` <!DOCTYPE html> <html> <head> <meta http-equiv="refresh" content="0; url=pages/${slug}.html" /> </head> <body> <p><a href="pages/${slug}.html">Redirect</a></p> </body> </html> `
+    )
+}
