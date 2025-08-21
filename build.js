@@ -37,7 +37,7 @@ for (const page of pages) {
         case '.mdx':
             // in case of .mdx, import the bundled version from out/, convert to html, and wrap in layout
             const { default: Content } = await import(`./out/${slug}.js`)
-            html = Layout(renderToString(Content({ components: {} })))
+            html = Layout(renderToString(Content()))
             // break <p> to fix footnotes
             html = html.replaceAll('<p>', '')
             html = html.replaceAll('</p>', '<br><br>')
