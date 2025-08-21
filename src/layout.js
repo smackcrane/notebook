@@ -3,7 +3,7 @@
  * Includes stylesheet, KaTeX, home navigation, etc.
  */
 export default function Layout(content) {
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <!-- KaTeX requires the use of the HTML5 doctype. Without it, KaTeX may not render properly -->
 <html>
 <head>
@@ -22,8 +22,6 @@ export default function Layout(content) {
           delimiters: [
               {left: '$$', right: '$$', display: true},
               {left: '$', right: '$', display: false},
-              {left: '\\(', right: '\\)', display: false},
-              {left: '\\[', right: '\\]', display: true}
           ],
           // • rendering keys, e.g.:
           throwOnError : false
@@ -40,5 +38,5 @@ export default function Layout(content) {
 </body>
 </html>
 
-  `;
+  `
 }
