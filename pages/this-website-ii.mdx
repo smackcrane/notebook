@@ -4,6 +4,8 @@ import { Footnote } from '../src/footnote.jsx'
 
 In <a href="this-website-i.html">Part I</a>, we set up the site with a couple of bonus features on top of plain HTML, most notably fancy footnotes<Footnote>Like this.</Footnote> that expand in place when clicked.
 
+<br/><br/>
+
 Careful readers will remember that this was possible with plain HTML and CSS, but required a fair bit of it. Here's the code for footnote 1 above:
 
 ```
@@ -19,7 +21,7 @@ Careful readers will remember that this was possible with plain HTML and CSS, bu
 Not the most pleasant writing experience, to say the least.
 <Footnote>
     As another example, the angle brackets &lt; and &gt; are special characters
-    in HTML---so to actually display the code above, the HTML would have to look
+    in HTML---so to *display* the code above, the HTML would look
     like this.
 ```
 &lt;label for="fn-1-toggle"&gt;
@@ -31,15 +33,25 @@ Not the most pleasant writing experience, to say the least.
 ```
 </Footnote>
 
-A much more pleasant way to write would be `<Footnote>Like this.</Footnote>`. And maybe do away with all that `<head>` and `<body>` and `<h1>` faffing.<Footnote>And maybe write code like `` `<div>` ``, instead of `<code>&lt;div&gt;</code>`.</Footnote> Luckily, this is all possible, with the power of MDX! <a href="https://mdxjs.com/">MDX</a> is markdown + jsx, which means we can write in markdown rather than HTML, and also write custom components like `<Footnote>` and drop them right in.
+<br/><br/>
 
-Of course, this opens up a whole can of worms. We're writing a website, so it needs to be HTML eventually, so it needs to get compiled, and our custom components need to be included, and if we want to write `import` then it suddenly becomes an "ESM module", which means it needs a "bundler", and---suddenly the project is ballooning out of proportion, all just because we didn't want to write `<label>` quite so many times.
+A much more pleasant way to write would be `<Footnote>Like this.</Footnote>`. And maybe do away with some of the HTML faffing.<Footnote>And maybe write code like `` `<div>` ``, instead of `<code>&lt;div&gt;</code>`.</Footnote> Luckily, this is all possible, with the power of MDX! <a href="https://mdxjs.com/">MDX</a> is markdown + JSX, which means we can write in markdown rather than HTML, and also write custom components like `<Footnote>` and drop them right in.
 
-The impression that I've gotten following this rabbit hole is that there are many complicated and annoying things that people want to do with websites, and as a result there are many complicated tools to make things less annoying. But if you're just trying to write a static site, you don't need any of them!<Footnote>In fact, it took me a while to get my bearings here. There was a version of this site that was a single page application with a bunch of React states and context managing everything, bundled with Vite. Eventually I found it was going to be a pain to make navigation work the way I wanted, which was when I finally started to think that there must be a way to just make HTML files. Even then, it took some searching through existing tools<Footnote>There's a Vite plugin `vite-plugin-ssr` that can do this! How do I set it up? Oh wait, <small>it's now <small>its own framework. Let's see, <small>can I use it together with Vite, <small>or do I have to migrate? <small>Hmmm</small></small></small></small></small></Footnote> before it occurred to me that I could just do it myself.</Footnote> If you want to end up with HTML, but start out with something else, you need
+### A Shorter and Worse <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Frameworks_libraries/Introduction">Intro to Client-Side Frameworks</a>
 
-1. a compiler (or transpiler).
+Of course, this opens up a whole can of worms. We're writing a website, so it needs to be HTML eventually, and our custom components need to be included, and if we want to write `import` then it suddenly becomes an "ESM module", which means it needs a "bundler", and---suddenly the project is ballooning out of proportion, all just because we didn't want to write `<label>` quite so many times.
 
-That's it! Of course, you still have to find the right compiler for your setup. Since I want to write MDX and define my own components, it's enough to use `esbuild` with the `@mdx-js/esbuild` plugin. That whole part of the process looks like this:<Footnote>`npm i esbuild @mdx-js/esbuild react react-dom`</Footnote>
+<br/><br/>
+
+The impression that I've gotten following this rabbit hole is that there are many complicated and annoying things that people want to do with websites, and as a result there are many complicated<Footnote>and, some would say, annoying</Footnote> "frameworks" to make things less annoying. But if you're just trying to write a static site, you don't need any of them!<Footnote>In fact, it took me a while to get my bearings here. There was a version of this site that was a single page application with a bunch of React states and contexts managing everything, bundled with Vite. Eventually I found it was going to be a pain to make navigation work the way I wanted, which was when I finally started to think that there must be a way to just make HTML files. Even then, it took some searching through existing tools<Footnote>There's a Vite plugin `vite-plugin-ssr` that can do this! How do I set it up? Oh wait, <small>it's now <small>its own framework. Let's see, <small>can I use it together with Vite, <small>or do I have to migrate? <small>Hmmm</small></small></small></small></small></Footnote> before it occurred to me that I could do it myself.</Footnote> If you want to start out with something else and end up with HTML, you need
+
+1. a compiler.
+
+That's it!
+
+### Our Very Own Static Site Generator
+
+Of course, you still have to find the right compiler for your setup. Since I want to write MDX with custom JSX components, it's enough to use `esbuild` with the `@mdx-js/esbuild` plugin. That whole part of the process looks like this:<Footnote>`npm install esbuild @mdx-js/esbuild react react-dom`</Footnote>
 
 ```
 import esbuild from 'esbuild'
@@ -57,9 +69,13 @@ await esbuild.build({
 
 This tells `esbuild` to go through all the MDX files in `pages/`, compile them (along with their imports, etc.), and put the result in `out/`.
 
-Since we've eschewed all those fancy bundlers, we still have some more work to do---what this step spits out isn't a finished website. For each MDX page, we now have a Javascript file that produces that page's content. What remains is to convert it to HTML, wrap it in the trappings of an HTML webpage, and assemble them into a full site.
+<br/><br/>
 
-But the point is that this is easy, and doing it by hand gives us a lot of flexibility. To convert the compiled Javascript for `${slug}.mdx` to HTML, we have a handy function provided by React:
+Since we've eschewed all those fancy frameworks, we still have some more work to do---what this step spits out isn't a finished website. For each MDX page, we now have a Javascript file that produces that page's content. What remains is to convert it to HTML, wrap it in the trappings of an HTML webpage, and assemble them into a full site.
+
+<br/><br/>
+
+But the point is that this is easy, and doing it by hand gives us a lot of flexibility. To convert the compiled Javascript for `pages/${slug}.mdx` to HTML, we have a handy function provided by React:
 ```
 import { renderToString } from 'react-dom/server'
 
@@ -68,6 +84,71 @@ html = renderToString(Content())
 ```
 This produces HTML, but it still doesn't have the full page structure of `<html>`, `<head>`, `<body>`, etc. For our purposes, this boilerplate will be the same every time, so we can just write it as a string and insert the rendered `html` string in the appropriate place. Now that we have a fully-formed page, we can write it to our output directory (say, `dist/`).
 
-And that's the whole process! Just repeat for each page, copy static assets (pictures, scripts, etc.) over to `dist/`, throw that all those steps together in `build.js`, and we've got our own static site generator!
+<br/><br/>
+
+And that's the whole process---just compile & render & layout each page, copy static assets (pictures, scripts, stylesheets) over to `dist/`, throw that all those steps together in `build.js`, and we've got our own static site generator!
+<Footnote comma={true}>
+To pretend we're fancy, let's also add
+```
+"type": "module",
+"scripts": { "build": "node build.js" }
+```
+to `package.json`. The first line warns `esbuild` that we're going to use big words like `import`, and the second tells `npm` what to do when we say `npm run build`.
+</Footnote>
+<Footnote>
+Full setup on GitHub somewhere around <a href="https://github.com/smackcrane/notebook/tree/53c23fa179825370d5ab47ae8a2cda0068301ba0">this commit</a>.
+</Footnote>
+
+<br/><br/>
 
 Well, that's not the *whole* process. Since we're writing it ourselves, we can do whatever else we want! Old HTML files from the previous version of this site? No need to rewrite them in MDX, just copy them through to `dist/`. Posts in a series with their own navigation? Just a couple tweaks to our HTML boilerplate function. Whatever new features come to mind writing the next one? You bet!
+
+### Appendix: GitHub Pages
+
+For some reason I find the documentation surrounding GitHub pages rather mystifying. In the end I've discovered that you can indeed tell it to "just build my shit and serve it", but it took a while to find the correct incantations.
+<Footnote>
+For lack of anything more enlightening to say, I'll simply repeat them here. In `.github/workflows/build-and-deploy.yml` I have inscribed the following:
+```
+name: Build and Deploy
+
+on:
+    push:
+        branches:
+            - main
+permissions:
+    pages: write
+    id-token: write
+    contents: read
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Build static files
+              id: build
+              run: |
+                  npm ci
+                  npm run build
+
+            - name: Upload static files as artifact
+              id: deployment
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: dist/
+
+    deploy:
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
+```
+For this particular action, the only variable is where the built files end up, which is the line `path: dist/`.
+</Footnote>

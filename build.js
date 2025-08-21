@@ -40,7 +40,7 @@ for (const page of pages) {
             html = Layout(renderToString(Content()))
             // break <p> to fix footnotes
             html = html.replaceAll('<p>', '')
-            html = html.replaceAll('</p>', '<br><br>')
+            html = html.replaceAll('</p>', '')
             break
         default:
             continue // ignore files that aren't .html or .mdx
