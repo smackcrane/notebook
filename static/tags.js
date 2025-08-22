@@ -2,8 +2,8 @@
 // elements <div class='tag-TAGNAME'> ... </div>
 // create radio button for each TAGNAME which toggle showing only those elements
 
-const tagDivs = document.querySelectorAll('div[class|=tag]') // get divs that are tags
-const tagNames = Array.from(tagDivs).map((div) => div.className.slice(4)) // get tag names
+const tagDivs = document.querySelectorAll('div[tag][class~=page]') // get divs that have tags that are pages (as opposed to series)
+const tagNames = Array.from(tagDivs).map((div) => div.getAttribute('tag')) // get tag names
 const total = tagNames.length // total number of tags
 
 // get unique tags and counts of each
@@ -14,10 +14,10 @@ for (const tag of tagNames) {
 
 // create css style for hiding or showing tags based on radio buttons
 // if a radio button is checked, hide all tags
-rules = `input[type=radio][id|=tag]:checked ~ div[class|=tag] {display: none;}`
+rules = `input[type=radio][id|=tag]:checked ~ div[tag] {display: none;}`
 for (tag in tags) {
     // then show the tags corresponding to the checked button
-    rules += `\ninput[type=radio][id="tag-${tag}"]:checked ~ div[class="tag-${tag}"] {display: block}`
+    rules += `\ninput[type=radio][id="tag-${tag}"]:checked ~ div[tag="${tag}"] {display: block}`
 }
 // slap it in a style element and add to head
 const style = document.createElement('style')

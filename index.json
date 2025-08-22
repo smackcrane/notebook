@@ -2,6 +2,7 @@
     {
         "series": true,
         "title": "Micropolis",
+        "tag": "nerd shit",
         "pages": [
             {
                 "slug": "micropolis-i",
@@ -26,6 +27,7 @@
     {
         "series": true,
         "title": "This Website",
+        "tag": "nerd shit",
         "pages": [
             {
                 "slug": "this-website-i",
