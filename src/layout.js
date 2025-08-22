@@ -1,12 +1,15 @@
+export { pageLayout, indexLayout }
+
 /**
  * String HTML template to wrap a page in.
  * Includes stylesheet, KaTeX, home navigation, etc.
  */
-export default function Layout(content) {
+function pageLayout(content) {
     return `<!DOCTYPE html>
 <!-- KaTeX requires the use of the HTML5 doctype. Without it, KaTeX may not render properly -->
 <html>
 <head>
+    <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../static/stylesheet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
@@ -37,6 +40,38 @@ export default function Layout(content) {
 
 </body>
 </html>
+`
+}
 
-  `
+/**
+ * String HTML template for index.html.
+ * Includes HTML boilerplate, tag buttons, etc.
+ */
+function indexLayout(content) {
+    return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="static/stylesheet.css">
+</head>
+<body>
+
+    <div id='text-column'>
+    <h1>Notebook</h1>
+
+    <!--tag buttons-->
+    <input type='radio' id='deselect' name='tags' style='display: none'>
+    <label for='deselect'>&#x2715;</label>
+    <div id='radio-button-anchor'></div>
+
+    <br><br>
+
+    ${content}
+
+    </div>
+<script src='static/tags.js'></script>
+</body>
+</html>
+`
 }

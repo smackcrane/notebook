@@ -1,0 +1,44 @@
+[
+    {
+        "series": true,
+        "title": "Micropolis",
+        "pages": [
+            {
+                "slug": "micropolis-i",
+                "title": "Micropolis I: Metropolis-Hastings",
+                "blurb": "First steps towards training neural networks using the Metropolis algorithm.",
+                "tag": "nerd shit"
+            },
+            {
+                "slug": "micropolis-ii",
+                "title": "Micropolis II: Minibatch MH",
+                "blurb": "Metropolis optimizer, now with 3 new minibatch algorithms!",
+                "tag": "nerd shit"
+            }
+        ]
+    },
+    {
+        "slug": "gumby-road-trip",
+        "title": "Gumby Road Trip",
+        "blurb": "A map of Mountain Project, or, where to climb when you don't know where to climb",
+        "tag": "climbing"
+    },
+    {
+        "series": true,
+        "title": "This Website",
+        "pages": [
+            {
+                "slug": "this-website-i",
+                "title": "This Website I: Fancy Footnotes",
+                "blurb": "This website is fully hand-written---here's (a bit about) how.",
+                "tag": "nerd shit"
+            },
+            {
+                "slug": "this-website-ii",
+                "title": "This Website II: Build",
+                "blurb": "New features, same ol' HTML---a custom static site generator!",
+                "tag": "nerd shit"
+            }
+        ]
+    }
+]
