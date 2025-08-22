@@ -58,19 +58,10 @@ function indexLayout(content) {
 <body>
 
     <div id='text-column'>
-    <h1>Notebook</h1>
-
-    <!--tag buttons-->
-    <input type='radio' id='deselect' name='tags' style='display: none'>
-    <label for='deselect'>&#x2715;</label>
-    <div id='radio-button-anchor'></div>
-
-    <br><br>
 
     ${content}
 
     </div>
-<script src='static/tags.js'></script>
 </body>
 </html>
 `

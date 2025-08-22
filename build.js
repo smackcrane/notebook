@@ -4,7 +4,6 @@ import fs from 'fs'
 import path from 'path'
 import { renderToString } from 'react-dom/server'
 import { pageLayout, indexLayout } from './src/layout.js'
-import { indexBlurbs } from './src/indexBlurbs.js'
 
 // prior to build, reset dist and out
 fs.rmSync('out', { recursive: true, force: true })
@@ -14,7 +13,7 @@ fs.mkdirSync('dist')
 
 // bundle mdx files (and their jsx imports)
 await esbuild.build({
-    entryPoints: ['pages/*.mdx'],
+    entryPoints: ['index.mdx', 'pages/*.mdx'],
     outdir: 'out',
     bundle: true,
     format: 'esm',
@@ -37,7 +36,7 @@ for (const page of pages) {
             break
         case '.mdx':
             // in case of .mdx, import the bundled version from out/, convert to html, and wrap in layout
-            const { default: Content } = await import(`./out/${slug}.js`)
+            const { default: Content } = await import(`./out/pages/${slug}.js`)
             html = pageLayout(renderToString(Content()))
             // break <p> to fix footnotes
             html = html.replaceAll('<p>', '')
@@ -54,8 +53,9 @@ for (const page of pages) {
 fs.cpSync('static', 'dist/static', { recursive: true })
 
 // special treatment for index.html
-const index = JSON.parse(fs.readFileSync('index.json'))
-fs.writeFileSync('dist/index.html', indexLayout(indexBlurbs(index)))
+const { default: Content } = await import(`./out/index.js`)
+const html = indexLayout(renderToString(Content()))
+fs.writeFileSync('dist/index.html', html)
 
 // redirect old URLs
 for (let slug of [
