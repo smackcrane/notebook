@@ -107,6 +107,8 @@ label[for|=tag], label[for=deselect] {
     padding-bottom: 2px;
     padding-left: 10px;
     padding-right: 10px;
+    margin:0.2em;
+    cursor: pointer;
 }
 label[for=deselect] {
     padding-left: 8px;

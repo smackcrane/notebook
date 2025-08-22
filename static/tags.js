@@ -43,5 +43,4 @@ for (const tag in tags) {
     // add them to the document
     rbAnchor.before(button)
     rbAnchor.before(label)
-    rbAnchor.before(document.createTextNode(' ')) // whitespace for spacing
 }
