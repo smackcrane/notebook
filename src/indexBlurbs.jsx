@@ -1,4 +1,5 @@
 import React from 'react'
+import { TagButtons } from './tagButtons'
 
 export { IndexBlurbs }
 
@@ -65,6 +66,8 @@ function IndexBlurbs({ index }) {
                     <PageBlurb page={entry} level={1} key={i} />
                 )
             )}
+            {/* activate tag script, after blurbs have been inserted */}
+            <script src="static/tags.js"></script>
         </>
     )
 }

@@ -113,6 +113,7 @@ label[for|=tag], label[for=deselect] {
 label[for=deselect] {
     padding-left: 8px;
     padding-right: 8px;
+    margin-left: 0;
 }
 input[type=radio][id|=tag]:hover + label {background-color: #DDD}
 input[type=radio][id=deselect]:hover + label {background-color: #DDD}

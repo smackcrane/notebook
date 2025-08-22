@@ -62,7 +62,6 @@ function indexLayout(content) {
     ${content}
 
     </div>
-<script src='static/tags.js'></script>
 </body>
 </html>
 `
