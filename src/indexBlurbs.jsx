@@ -1,5 +1,4 @@
 import React from 'react'
-import { TagButtons } from './tagButtons'
 
 export { IndexBlurbs }
 

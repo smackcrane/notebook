@@ -9,16 +9,16 @@ In <a href="this-website-i.html">Part I</a>, we set up the site with a couple of
 
 <br/><br/>
 
-Careful readers will remember that this was possible with plain HTML and CSS, but required a fair bit of it. Here's the code for footnote 1 above:
+Careful readers will remember that this was possible with plain HTML and CSS, but required a fair bit of it. Here's the HTML for footnote 1 above:
 
 ```html
-<label for="fn-1-toggle">
-    <sup>1</sup>
-</label>
-<input type="checkbox" hidden="" id="fn-1-toggle" />
-<div class="fn-content">
-    Like this.
-</div>
+    <label for="fn-1-toggle">
+        <sup>1</sup>
+    </label>
+    <input type="checkbox" hidden="" id="fn-1-toggle" />
+    <div class="fn-content">
+        Like this.
+    </div>
 ```
 
 Not the most pleasant writing experience, to say the least.
@@ -27,12 +27,12 @@ Not the most pleasant writing experience, to say the least.
     in HTML---so to *display* the code above, the HTML would look
     like this.
 ```html
-&lt;label for="fn-1-toggle"&gt;
-    &lt;sup&gt;1&lt;/sup&gt;
-&lt;/label&gt; &lt;input type="checkbox" hidden="" id="fn-1-toggle" /&gt;
-&lt;div class="fn-content"&gt;
-    Like this.
-&lt;/div&gt;
+    &lt;label for="fn-1-toggle"&gt;
+        &lt;sup&gt;1&lt;/sup&gt;
+    &lt;/label&gt; &lt;input type="checkbox" hidden="" id="fn-1-toggle" /&gt;
+    &lt;div class="fn-content"&gt;
+        Like this.
+    &lt;/div&gt;
 ```
 </Footnote>
 
@@ -57,17 +57,17 @@ That's it!
 Of course, you do have to find the right compiler for your setup. Since I want to write MDX with custom JSX components, a good tool for the job is <a href="https://esbuild.github.io/">esbuild</a> with the `@mdx-js/esbuild` plugin. That whole part of the process looks like this:<Footnote>`npm install esbuild @mdx-js/esbuild react react-dom`</Footnote>
 
 ```js
-import esbuild from 'esbuild'
-import mdx from '@mdx-js/esbuild'
+    import esbuild from 'esbuild'
+    import mdx from '@mdx-js/esbuild'
 
-await esbuild.build({
-    entryPoints: ['pages/*.mdx'],
-    outdir: 'out',
-    bundle: true,
-    format: 'esm',
-    platform: 'node',
-    plugins: [mdx()],
-})
+    await esbuild.build({
+        entryPoints: ['pages/*.mdx'],
+        outdir: 'out',
+        bundle: true,
+        format: 'esm',
+        platform: 'node',
+        plugins: [mdx()],
+    })
 ```
 
 This tells esbuild to go through all the MDX files in `pages/`, compile them (along with their imports, etc.), and put the result in `out/`.
@@ -80,10 +80,10 @@ Since we've eschewed all those fancy frameworks, we still have some more work to
 
 But the point is that this is easy, and doing it by hand gives us a lot of flexibility. To convert the compiled Javascript for `pages/${slug}.mdx` to HTML, we have a handy function provided by React:
 ```js
-import { renderToString } from 'react-dom/server'
+    import { renderToString } from 'react-dom/server'
 
-const { default: Content } = await import(`./out/${slug}.js`)
-html = renderToString(Content())
+    const { default: Content } = await import(`./out/${slug}.js`)
+    html = renderToString(Content())
 ```
 This produces HTML, but it still doesn't have the full page structure of `<html>`, `<head>`, `<body>`, etc. For our purposes, this boilerplate will be the same every time, so we can just write it as a string and insert the rendered `html` string in the appropriate place. Now that we have a fully-formed page, we can write it to our output directory (say, `dist/`).
 
@@ -93,8 +93,8 @@ And that's the whole process---just compile & render & layout each page, copy st
 <Footnote comma={true}>
 To pretend we're fancy, let's also add
 ```json
-"type": "module",
-"scripts": { "build": "node build.js" }
+    "type": "module",
+    "scripts": { "build": "node build.js" }
 ```
 to `package.json`. The first line warns esbuild that we're going to use big words like `import`, and the second tells `npm` what to do when we say `npm run build`.
 </Footnote>
@@ -112,46 +112,46 @@ For some reason I find the documentation surrounding GitHub pages rather mystify
 <Footnote>
 For lack of anything more enlightening to say, I'll simply repeat them here. In `.github/workflows/build-and-deploy.yml` I have inscribed the following:
 ```yml
-name: Build and Deploy
+    name: Build and Deploy
 
-on:
-    push:
-        branches:
-            - main
-permissions:
-    pages: write
-    id-token: write
-    contents: read
+    on:
+        push:
+            branches:
+                - main
+    permissions:
+        pages: write
+        id-token: write
+        contents: read
 
-jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+    jobs:
+        build:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Checkout
+                uses: actions/checkout@v4
 
-            - name: Build static files
-              id: build
-              run: |
-                  npm ci
-                  npm run build
+                - name: Build static files
+                id: build
+                run: |
+                    npm ci
+                    npm run build
 
-            - name: Upload static files as artifact
-              id: deployment
-              uses: actions/upload-pages-artifact@v3
-              with:
-                  path: dist/
+                - name: Upload static files as artifact
+                id: deployment
+                uses: actions/upload-pages-artifact@v3
+                with:
+                    path: dist/
 
-    deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
+        deploy:
+            environment:
+                name: github-pages
+                url: ${{ steps.deployment.outputs.page_url }}
+            runs-on: ubuntu-latest
+            needs: build
+            steps:
+                - name: Deploy to GitHub Pages
+                id: deployment
+                uses: actions/deploy-pages@v4
 ```
 For this particular action, the only variable is where the built files end up, which is the line `path: dist/`.
 </Footnote>

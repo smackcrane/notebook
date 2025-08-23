@@ -25,9 +25,6 @@ code {
     font-family: 'Courier', monospace;
 }
 
-pre code {
-}
-
 div.pageList {
     border-left: solid #EEE;
     padding-left: 0.5em;
