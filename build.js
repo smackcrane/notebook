@@ -9,7 +9,7 @@ import { pageLayout, indexLayout } from './src/layout.js'
 fs.rmSync('out', { recursive: true, force: true })
 fs.mkdirSync('out')
 fs.rmSync('dist', { recursive: true, force: true })
-fs.mkdirSync('dist')
+fs.mkdirSync('dist/pages', { recursive: true })
 
 // bundle mdx files (and their jsx imports)
 await esbuild.build({
@@ -23,7 +23,6 @@ await esbuild.build({
 
 // we want to produce a page for each file in pages/ dir
 const pages = fs.readdirSync('pages')
-fs.mkdirSync('dist/pages')
 for (const page of pages) {
     const extension = path.extname(page)
     const slug = path.basename(page, extension)

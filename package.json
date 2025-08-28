@@ -1,6 +1,7 @@
 {
     "type": "module",
     "scripts": {
+        "dev": "bash dev.sh",
         "build": "node build.js"
     },
     "dependencies": {
