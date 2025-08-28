@@ -32,6 +32,17 @@ function pageLayout(content) {
 </head>
 <body>
 
+    <div id="darkMode" style="float: right; display: block; margin-right: 1em; cursor: pointer;">
+        <svg id="darkModeSVG"
+            width="30"
+            height="20"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" rx="10" fill="grey" />
+            <circle id="darkModeSwitch" cx="10" cy="10" r="9" fill="white" />
+        </svg>
+    </div>
+    <script src="../static/darkMode.js"></script>
+
     <div id='navigation'><h2><a href='../index.html'>Notebook</a></h2></div>
 
     <div id='text-column'>
@@ -45,7 +56,6 @@ function pageLayout(content) {
 
 /**
  * String HTML template for index.html.
- * Includes HTML boilerplate, tag buttons, etc.
  */
 function indexLayout(content) {
     return `<!DOCTYPE html>
@@ -56,6 +66,18 @@ function indexLayout(content) {
     <link type="text/css" rel="stylesheet" href="static/stylesheet.css">
 </head>
 <body>
+
+    <div id="darkMode" style="float: right; display: block; margin-right: 1em; cursor: pointer;">
+        <svg id="darkModeSVG"
+            width="30"
+            height="20"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" rx="10" fill="grey" />
+            <circle id="darkModeSwitch" cx="10" cy="10" r="9" fill="white" />
+        </svg>
+    </div>
+    <script src="static/darkMode.js"></script>
+
 
     <div id='text-column'>
 

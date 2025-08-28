@@ -1,14 +1,24 @@
 :root {
-    --main-color:#5FA4B3;
-    --main-contrast:#9D7D60;
-    --highlight:#44D4F2;
-    --highlight-contrast:#FF7700;
-    --dark-color:#435255;
+    --text-color:#222; /* text color */
+    --background-color:#FFF; /* background color */
+    --low-contrast:#EEE; /* pageList border */
+    --medium-contrast:#888; /* series title */
+    --main-color:#5FA4B3; /* links */
+    /* --main-contrast:#9D7D60; */
+    /* --highlight:#44D4F2; */
+    --highlight-contrast:#FF7700; /* link hover */
+    /* --dark-color:#435255; */
+    --footnote-background:#EFF;
+    --radio-hover:#DDD;
+    --radio-checked:#FDB;
+    --footnote-brightness: 90%;
 }
 
 body {
     font-family: "Noto Sans", sans-serif;
     padding-bottom: 50px;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
 a {
@@ -26,7 +36,7 @@ code {
 }
 
 div.pageList {
-    border-left: solid #EEE;
+    border-left: solid var(--low-contrast);
     padding-left: 0.5em;
     margin-left: 0.3em;
 }
@@ -37,7 +47,7 @@ div.indexLevel-1 {
 
 div.series > h3 {
     margin-bottom: 0.3em;
-    color: #888;
+    color: var(--medium-contrast);
 }
 
 div.page > h3 {
@@ -57,8 +67,12 @@ div.blurb {
     max-width: 650px;
     margin: 0 auto;
     padding-bottom: 50px;
-    color: #222;
+    color: var(--text-color);
 }
+
+#darkMode { opacity: 0; }
+
+#darkMode:hover { opacity: 1; }
 
 /* previous/next in series navigation */
 .prev, .next {
@@ -76,16 +90,16 @@ div.blurb {
 
 /* fancy footnotes */
 /* functionality */
-input[type=checkbox] + div.fn-content {display:none;}
-input[type=checkbox]:checked + div.fn-content {display:block;}
+input[type=checkbox][id|=fn] + div.fn-content {display:none;}
+input[type=checkbox][id|=fn]:checked + div.fn-content {display:block;}
 input[type=checkbox][id|=fn] {display:none;}
 /* styling */
 label[for|=fn]{
     cursor: pointer;
 }
 .fn-content {
-    filter: brightness(90%);
-    background-color: #EFF;
+    filter: brightness(var(--footnote-brightness));
+    background-color: var(--footnote-background);
     padding: 10px;
     border-radius: 6px;
     margin-top: 2%;
@@ -112,6 +126,6 @@ label[for=deselect] {
     padding-right: 8px;
     margin-left: 0;
 }
-input[type=radio][id|=tag]:hover + label {background-color: #DDD}
-input[type=radio][id=deselect]:hover + label {background-color: #DDD}
-input[type=radio][id|=tag]:checked + label {background-color: #FDB}
+input[type=radio][id|=tag]:hover + label {background-color: var(--radio-hover)}
+input[type=radio][id=deselect]:hover + label {background-color: var(--radio-hover)}
+input[type=radio][id|=tag]:checked + label {background-color: var(--radio-checked)}
